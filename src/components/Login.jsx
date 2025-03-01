@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "./Navbar";
 
 export default function LoginPage() {
@@ -7,10 +8,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate(); // Initialize useNavigate
+
   // Handle login
   const handleLogin = async () => {
     setLoading(true);
-    setError(""); // Clear any previous errors
+    setError(""); // Clear previous errors
 
     // Simple email validation
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -20,7 +23,6 @@ export default function LoginPage() {
       return;
     }
 
-    // Check for empty password
     if (!password) {
       setError("Password is required.");
       setLoading(false);
@@ -43,13 +45,12 @@ export default function LoginPage() {
       // Store token in localStorage
       localStorage.setItem("token", data.token);
 
-      // Redirect to dashboard after successful login
-      window.location.href = "/dashboard";
+      // Redirect to Home Page after successful login
+      navigate("/home");  
     } catch (err) {
-      // Capture the error message and display it
       setError(err.message || "An error occurred. Please try again.");
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
@@ -100,9 +101,12 @@ export default function LoginPage() {
 
           <p className="text-sm text-gray-600 mt-4">
             Login as{" "}
-            <a href="/admin-login" className="text-pink-500 font-bold">
+            <button 
+              onClick={() => navigate("/admin-login")} 
+              className="text-pink-500 font-bold"
+            >
               Admin?
-            </a>
+            </button>
           </p>
         </div>
       </div>
