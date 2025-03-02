@@ -11,6 +11,9 @@ function AdminNav() {
           <li className="mx-[25px] cursor-pointer flex items-center justify-center">
             <Link to="/staff" className="hover:text-gray-300">Users</Link>
           </li>
+          <li className="mx-[25px] cursor-pointer flex items-center justify-center">
+            <Link to="/login" className="hover:text-gray-300">Logout</Link>
+          </li>
         </ul>
       </div>
   );

@@ -1,34 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminNav from "./AdminNav";
 
 function Staff() {
-  // Sample static data
-  const orders = [
-    {
-      id: "001",
-      userName: "John Doe",
-      email: "john@example.com",
-      productName: "Wooden Bed",
-      price: "15,000",
-      status: "Delivered",
-    },
-    {
-      id: "002",
-      userName: "Jane Doe",
-      email: "jane@example.com",
-      productName: "Wooden Chair",
-      price: "5,000",
-      status: "Not Delivered",
-    },
-    {
-      id: "003",
-      userName: "Alex Roy",
-      email: "alex@example.com",
-      productName: "Wooden Table",
-      price: "8,000",
-      status: "Delivered",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    // Retrieve orders from local storage
+    const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    setOrders(storedOrders);
+  }, []);
 
   return (
     <>
@@ -44,29 +24,16 @@ function Staff() {
                 <th className="border p-3">Email</th>
                 <th className="border p-3">Product Name</th>
                 <th className="border p-3">Price (NRS)</th>
-                <th className="border p-3">Status</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((order) => (
-                <tr
-                  key={order.id}
-                  className="text-center bg-orange-100 hover:bg-orange-200"
-                >
+                <tr key={order.id} className="text-center bg-orange-100 hover:bg-orange-200">
                   <td className="border p-3">{order.id}</td>
                   <td className="border p-3">{order.userName}</td>
                   <td className="border p-3">{order.email}</td>
                   <td className="border p-3">{order.productName}</td>
                   <td className="border p-3">{order.price}</td>
-                  <td
-                    className={`border p-3 ${
-                      order.status === "Delivered"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {order.status}
-                  </td>
                 </tr>
               ))}
             </tbody>

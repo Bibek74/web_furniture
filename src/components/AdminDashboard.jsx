@@ -6,7 +6,7 @@ function AdminDashboard() {
     name: '',
     category: 'Furniture',
     price: '',
-    image: null,
+    imageUrl: '',
     description: ''
   });
 
@@ -15,15 +15,12 @@ function AdminDashboard() {
     setProduct(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    setProduct(prev => ({ ...prev, image: e.target.files[0] }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Product submitted:', product);
+    localStorage.setItem('uploadedProduct', JSON.stringify(product));
     alert('Product uploaded successfully!');
-    setProduct({ name: '', category: 'Furniture', price: '', image: null, description: '' });
+    setProduct({ name: '', category: 'Furniture', price: '', imageUrl: '', description: '' });
   };
 
   return (
@@ -62,11 +59,12 @@ function AdminDashboard() {
               className='w-full p-2 border rounded'/>
           </div>
           <div className='mb-4'>
-            <label className='block text-gray-700'>Image</label>
+            <label className='block text-gray-700'>Image URL</label>
             <input 
-              type='file' 
-              onChange={handleImageChange} 
-              accept='image/*' 
+              type='text' 
+              name='imageUrl' 
+              value={product.imageUrl} 
+              onChange={handleChange} 
               required 
               className='w-full p-2 border rounded'/>
           </div>
