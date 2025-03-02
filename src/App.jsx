@@ -7,6 +7,7 @@ import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
 import Staff from "./components/Staff";
 import Product from "./components/Product";
+import ManageProduct from "./components/ManageProduct";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/dashboard" element={<AdminDashboard />} />
         <Route path="/staff" element={<Staff />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/manageproduct" element={<ManageProduct/>} />
       </Routes>
     </Router>
   );

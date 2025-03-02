@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import AdminNav from './AdminNav';
 
+// Function to save product with a unique id
 const saveProduct = (product) => {
   let existingProducts = JSON.parse(localStorage.getItem("uploadedProducts")) || [];
-  existingProducts.push(product); // Append new product
+  const newProduct = { ...product, id: Date.now() }; // Add unique ID using Date.now()
+  existingProducts.push(newProduct); // Append new product
   localStorage.setItem("uploadedProducts", JSON.stringify(existingProducts));
 };
 

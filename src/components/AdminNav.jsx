@@ -9,6 +9,9 @@ function AdminNav() {
             <Link to="/dashboard" className="hover:text-gray-300">Admin Dashboard</Link>
           </li>
           <li className="mx-[25px] cursor-pointer flex items-center justify-center">
+            <Link to="/manageproduct" className="hover:text-gray-300">ManageProduct</Link>
+          </li>
+          <li className="mx-[25px] cursor-pointer flex items-center justify-center">
             <Link to="/staff" className="hover:text-gray-300">Users</Link>
           </li>
           <li className="mx-[25px] cursor-pointer flex items-center justify-center">
