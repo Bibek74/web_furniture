@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import AdminNav from './AdminNav';
 
+const saveProduct = (product) => {
+  let existingProducts = JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+  existingProducts.push(product); // Append new product
+  localStorage.setItem("uploadedProducts", JSON.stringify(existingProducts));
+};
+
 function AdminDashboard() {
   const [product, setProduct] = useState({
     name: '',
@@ -18,7 +24,7 @@ function AdminDashboard() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Product submitted:', product);
-    localStorage.setItem('uploadedProduct', JSON.stringify(product));
+    saveProduct(product); // Use the saveProduct function here
     alert('Product uploaded successfully!');
     setProduct({ name: '', category: 'Furniture', price: '', imageUrl: '', description: '' });
   };

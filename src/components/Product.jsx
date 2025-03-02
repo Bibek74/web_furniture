@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 
 function Product() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);  // Store all products
   const [expanded, setExpanded] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
 
+  // Fetch all products from local storage when component loads
   useEffect(() => {
-    // Fetch products from local storage
-    const storedProduct = localStorage.getItem("uploadedProduct");
-    const parsedProduct = storedProduct ? [JSON.parse(storedProduct)] : [];
-    setProducts(parsedProduct);
+    const storedProducts = JSON.parse(localStorage.getItem("uploadedProducts")) || [];
+    setProducts(storedProducts);
   }, []);
 
   const toggleReadMore = (id) => {
@@ -37,6 +36,7 @@ function Product() {
         price: selectedProduct.price,
       };
 
+      // Save order in local storage
       const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
       localStorage.setItem("orders", JSON.stringify([...existingOrders, purchasedProduct]));
 
@@ -54,28 +54,34 @@ function Product() {
       <Navbar />
       <div style={{ padding: "16px" }}>
         <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>Products</h1>
+
+        {/* Display products in a grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "16px" }}>
-          {products.map((product, index) => (
-            <div key={index} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "350px", padding: "16px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: "8px" }}>
-              <img src={product.imageUrl} alt={product.name} style={{ width: "100%", height: "160px", objectFit: "cover", borderRadius: "8px" }} />
-              <div style={{ flexGrow: 1 }}>
-                <h2 style={{ fontSize: "20px", fontWeight: "600", marginTop: "8px" }}>{product.name}</h2>
-                <p style={{ color: "gray", marginTop: "4px" }}>
-                  {expanded[index] ? product.description : product.description.split(" ").slice(0, 10).join(" ") + "..."}
-                </p>
-                <button onClick={() => toggleReadMore(index)} style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}>
-                  {expanded[index] ? "Read Less" : "Read More"}
+          {products.length > 0 ? (
+            products.map((product, index) => (
+              <div key={index} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "350px", padding: "16px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", borderRadius: "8px" }}>
+                <img src={product.imageUrl} alt={product.name} style={{ width: "100%", height: "160px", objectFit: "cover", borderRadius: "8px" }} />
+                <div style={{ flexGrow: 1 }}>
+                  <h2 style={{ fontSize: "20px", fontWeight: "600", marginTop: "8px" }}>{product.name}</h2>
+                  <p style={{ color: "gray", marginTop: "4px" }}>
+                    {expanded[index] ? product.description : product.description.split(" ").slice(0, 10).join(" ") + "..."}
+                  </p>
+                  <button onClick={() => toggleReadMore(index)} style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}>
+                    {expanded[index] ? "Read Less" : "Read More"}
+                  </button>
+                  <p style={{ fontSize: "18px", fontWeight: "bold", marginTop: "8px" }}>NRS {product.price}</p>
+                </div>
+                <button 
+                  onClick={() => handleBuyNow(product)} 
+                  style={{ marginTop: "12px", width: "100%", padding: "10px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+                >
+                  Buy Now
                 </button>
-                <p style={{ fontSize: "18px", fontWeight: "bold", marginTop: "8px" }}>NRS {product.price}</p>
               </div>
-              <button 
-                onClick={() => handleBuyNow(product)} 
-                style={{ marginTop: "12px", width: "100%", padding: "10px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
-              >
-                Buy Now
-              </button>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No products available.</p>
+          )}
         </div>
       </div>
 
